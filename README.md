@@ -9,5 +9,7 @@ Sometimes we tend to forget something when we focus too much on something else. 
 + import threading
 ## How to use?
 The principle is simple - input the URL and the date/time, click "add time", and you're done.
+## features
+A program that opens designated websites at designated times, displays the current list of reservations, and automatically deletes them when the designated time has passed.
 ## result
-![image](https://user-images.githubusercontent.com/87925027/232961106-64a180bb-b758-4133-926c-985ea5264915.png)
+![image](https://user-images.githubusercontent.com/87925027/232967737-f8b5ba30-8866-4599-8c17-af4c5e9ad8eb.png)
