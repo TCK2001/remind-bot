@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import scrolledtext
 import webbrowser
 from time import *
 import datetime
@@ -6,7 +7,7 @@ import threading
 
 wk = tk.Tk()
 wk.title("Remind me")
-
+wk.geometry("400x300")
 time_list = []
 url_list = []
 
@@ -14,7 +15,7 @@ def open_site():
     wait = 1
     try:
         while(wait == 1): 
-            if len(time_list) >= 1: 
+            if len(time_list) >= 1:
                 for index, remind_time in enumerate(time_list):
                     now = datetime.datetime.now()
                     wait_time = datetime.datetime(*remind_time) - now
@@ -23,6 +24,7 @@ def open_site():
                         webbrowser.open_new_tab(url_list[index])
                         time_list.remove(time_list[index])
                         url_list.remove(url_list[index])
+                        message_area.delete(1.0,4.0)
                         print(time_list)
                         print(url_list)
     except Exception as ex:
@@ -31,6 +33,7 @@ def open_site():
 t = threading.Thread(target=open_site)        
         
 def add_time():
+    global message
     date_str = date_entry.get()
     time_str = time_entry.get()
     url = url_entry.get()
@@ -40,6 +43,8 @@ def add_time():
         remind_time = (year, month, day, hour, minute)
         time_list.append(remind_time)
         url_list.append(url)
+        message = 'Time : ' + str(remind_time) + '\nURL : ' + str(url) + '\n'
+        message_area.insert(tk.END, message + '\n')
         print(f"Added time: {remind_time}")
     except ValueError:
         print("Invalid date or time format")
@@ -69,7 +74,12 @@ time_entry.pack()
 add_button = tk.Button(text="Add Time", command=add_time)
 add_button.pack()
 
+scrollbar = tk.Scrollbar(wk)
+scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+message_area = scrolledtext.ScrolledText(wk, wrap=tk.WORD,yscrollcommand=scrollbar.set,width=50, height=10)
+message_area.pack()
+
 t.start()
-wk.mainloop()    
+wk.mainloop()
 t.join()
 print("program exit")
